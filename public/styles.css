@@ -12,24 +12,52 @@ html, body {
 
 .chatbox {
     position:absolute;
+    left:13%;
     padding:0;
     height:90%;
-    width:100%;
+    width:87%;
 }
 
 .inputbox {
     position:relative;
-    top:102%;
-    left: 2%;
+    top:90%;
+    left: 15%;
     height:5%;
-    width:95%;
+    width:80%;
     background-color: #2C2F33;
+    color:white;
     border-radius: 8px;
     z-index: 1;
 }
 
-.sampletext {
-    color: lightslategray;
-    text-align: left;
-    padding: 5%;
+#chatbar {
+    position:relative;
+    top:90%;
+    height:100%;
+    width:100%;
+    background-color: #2C2F33;
+    border-radius: 8px;
+    line-height: 4vh;
+}
+
+.userlist {
+    position: relative;
+    width:13%;
+    top: -5%;
+    height:100%;
+    background-color: #3e4247
+}
+
+.textbox {
+    position:relative;
+    height:5%;
+    width:20%;
+}
+
+.textbox p {
+    position:relative;
+    height:10%;
+    width:50%;
+    left:20%;
+    color: white;
 }

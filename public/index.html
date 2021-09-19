@@ -9,14 +9,22 @@
         <link rel="stylesheet" href="styles.css">
         <script src="https://cdn.socket.io/4.1.2/socket.io.min.js" integrity="sha384-toS6mmwu70G0fw54EGlWWeA4z3dyJ+dlXBtSURSKN4vyRFOcxd3Bzjj/AoOwY+Rg" crossorigin="anonymous"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js" integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ==" crossorigin="anonymous"></script>
     </head>
     <body>
         <div id="chatwindow" class="chatwindow">
             <div id="chatbox" class="chatbox">
-                <div id="inputbox" class="inputbox">
+            </div>
+            <div id="inputbox" class="inputbox">
+                <form id="form"><input type="text" id="chatbar" name="chatbar" placeholder="Click to begin typing"></form>
+            </div>
+            <div id="userlist" class="userlist">
+                <div id="numUsers">
+                    
                 </div>
             </div>
         </div>
         <script src="src/user.js"></script>
+        <script src="src/message.js"></script>
     </body>
 </html>

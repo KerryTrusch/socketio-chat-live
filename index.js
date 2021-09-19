@@ -6,19 +6,16 @@ let app     = express();
 let server  = app.listen(4000);
 let messages = {};
 app.use(express.static('public'));
-numUsers = 1;
+numUsers = 0;
 let io = socket(server);
 io.on('connection', (socket) => {
-    socket.on("userJoin", () => {
-        numUsers++;
-        socket.emit("pastMessages", messages);
-    });
-    console.log(numUsers);
+    numUsers++;
+    socket.emit("pastMessages", messages);
     socket.on("disconnect", () => {
         numUsers--;
     });
 
-    socket.on("getMessage", (text, user, time) => {
+    socket.on("getMessage", (data) => {
         if (Object.keys(messages).length >= 100) {
             delete messages[0];
             for (let i = 0; i < 100; i++) {
@@ -26,6 +23,7 @@ io.on('connection', (socket) => {
                 delete messages[i+1];
             }
         }
-        messages[Object.keys(message).length] = {"text": text, "user": user, "time": time};
+        messages[Object.keys(messages).length] = {"text": data["text"], "user": data["user"], "time": data["time"]};
+        io.emit("messageRecieved", data["text"]);
     });
 });

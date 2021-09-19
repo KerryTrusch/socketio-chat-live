@@ -1,6 +1,8 @@
 class message {
+    body;
+    time;
     constructor(body) {
         this.body = body;
-        this.time = moment().format('D/M, m:s');
+        this.time = moment().format('h:m:s');
     }
 }
