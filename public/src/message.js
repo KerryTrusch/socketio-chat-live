@@ -21,7 +21,5 @@ class message {
         this.time = moment().format('D/M, m:s');
     }
 
-    sanitize(text) {
-        
-    }
+    
 }
