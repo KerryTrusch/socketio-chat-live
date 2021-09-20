@@ -30,17 +30,31 @@ $(function () {
         }
     });
 
-    socket.on("messageRecieved", (body) => { 
-        let textBox = document.createElement('textbox');
-        let message = document.createElement('p');
-        let username = document.createElement('p2');
-        let time = document.createElement('p3');
-        message.textContent = body;
-        username.textContent = uname;
-        textBox.appendChild(username);
-        textBox.appendChild(message);
-        document.getElementById("chatbox").appendChild(textBox);
-        window.scrollTo(0, document.body.scrollHeight);
+    socket.on("messageRecieved", (data) => { 
+        let div = document.createElement('div');
+        div.classList.add("message");
+        let p = document.createElement('p');
+        p.classList.add('user');
+        p.innerHTML = uname + " ";
+        p.innerHTML += `<span>${data["time"]}</span>`;
+        div.appendChild(p);
+        let body = document.createElement('p');
+        body.classList.add('body');
+        body.innerHTML = data["text"];
+        div.appendChild(body);
+        document.querySelector(".chatbox").appendChild(div);
+        scrollToBottom("chatbox");
     });
+
+    function scrollToBottom(id) {
+        let div = document.querySelector("." + id);
+        $("#" + id).animate(
+            {
+                scrollTop: div.scrollHeight - div.clientHeight,
+            },
+            100
+        );
+    }
+    
 });
 

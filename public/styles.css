@@ -12,41 +12,63 @@ html, body {
 
 .chatbox {
     position:absolute;
+    left:13%;
     padding:0;
-    max-height:90%;
-    width:100%;
+    max-height: 90%;
     overflow-y: scroll;
+    width:87%;
 }
 
 .inputbox {
     position:relative;
-    top:102%;
-    left: 2%;
+    top:90%;
+    left: 15%;
     height:5%;
-    width:95%;
+    width:80%;
     background-color: #2C2F33;
+    color:white;
     border-radius: 8px;
     z-index: 1;
 }
 
-.sampletext {
-    color: lightslategray;
-    text-align: left;
-    padding: 5%;
+#chatbar {
+    position:relative;
+    top:90%;
+    height:100%;
+    width:100%;
+    background-color: #2C2F33;
+    border-radius: 8px;
+    padding:1.5vh;
 }
 
+.userlist {
+    position: relative;
+    width:13%;
+    top: -5%;
+    height:100%;
+    background-color: #3e4247
+}
 
 .chatbox .message {
-    color:white;
     padding:10px;
+    overflow-x:hidden;
 }
 
 .chatbox .user {
+    position:relative;
+    left:10%;
     font-weight: bold;
     opacity: 0.7;
-    margin-bottom: 5px;
+    margin-bottom: 0px;
+    font-size:1.5em;
 }
-
-.chatbox .time {
-
+.chatbox .body {
+    position:relative;
+    left:10%;
+    color:white;
+    font-size:2em;
+}
+.chatbox span {
+    color: gray;
+    font-size:0.8em;
 }

@@ -24,6 +24,6 @@ io.on('connection', (socket) => {
             }
         }
         messages[Object.keys(messages).length] = {"text": data["text"], "user": data["user"], "time": data["time"]};
-        io.emit("messageRecieved", data["text"]);
+        io.emit("messageRecieved", data);
     });
 });
