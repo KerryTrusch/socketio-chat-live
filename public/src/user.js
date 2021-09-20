@@ -17,10 +17,19 @@ $(function () {
         "#820080"
     ];
     let messages;
-    socket.username = "user";
-    const uname = socket.username;
-    form = document.getElementById('form');
+    let uname = '';
+    modalform = document.getElementById('modalform');
+    modalinput = document.getElementById('userInput');
+    form = document.getElementById('chatform');
     input = document.getElementById('chatbar');
+    modalform.addEventListener('submit', function (e) {
+        e.preventDefault();
+        if (modalinput.value) {
+            uname = modalinput.value;
+            input.value = '';
+            $('#modal').fadeOut( "slow", function() {});
+        }
+    });
     form.addEventListener('submit', function (e) {
         e.preventDefault();
         if (input.value) {
@@ -55,6 +64,6 @@ $(function () {
             100
         );
     }
-    
+
 });
 

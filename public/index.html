@@ -12,11 +12,17 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js" integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ==" crossorigin="anonymous"></script>
     </head>
     <body>
+        <div id="modal" class="usernameModal">
+            <div id="modalContent" class="usernameModal-inner">
+                <form id="modalform"><input type="text" id="userInput" class="userInput"></form>
+                <h1>What's your name?</h1>
+            </div>
+        </div>
         <div id="chatwindow" class="chatwindow">
             <div id="chatbox" class="chatbox">
             </div>
             <div id="inputbox" class="inputbox">
-                <form id="form"><input type="text" id="chatbar" name="chatbar" placeholder="Click to begin typing"></form>
+                <form id="chatform"><input type="text" id="chatbar" name="chatbar" placeholder="Click to begin typing"></form>
             </div>
             <div id="userlist" class="userlist">
                 <div id="numUsers">
