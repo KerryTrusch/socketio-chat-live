@@ -11,7 +11,7 @@ numUsers = 0;
 let io = socket(server);
 io.on('connection', (socket) => {
     numUsers++;
-    socket.emit("pastMessages", messages);
+    io.emit("history", {"messages":messages, "users":users});
     socket.on("new user", (uname) => {
         users.push(uname);
         io.emit("user joined", uname);
