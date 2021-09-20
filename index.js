@@ -5,12 +5,17 @@ let socket  = require("socket.io");
 let app     = express();
 let server  = app.listen(4000);
 let messages = {};
+let users = [];
 app.use(express.static('public'));
 numUsers = 0;
 let io = socket(server);
 io.on('connection', (socket) => {
     numUsers++;
     socket.emit("pastMessages", messages);
+    socket.on("new user", (uname) => {
+        users.push(uname);
+        io.emit("user joined", uname);
+    });
     socket.on("disconnect", () => {
         numUsers--;
     });
