@@ -5,7 +5,6 @@ $(function () {
         "#FFFFFF",
         "#E4E4E4",
         "#888888",
-        "#222222",
         "#FFA7D1",
         "#E50000",
         "#E59500",
@@ -24,7 +23,8 @@ $(function () {
     modalinput = document.getElementById('userInput');
     form = document.getElementById('chatform');
     input = document.getElementById('chatbar');
-
+    let firstconnection = true;
+    let color = "";
 
     modalform.addEventListener('submit', function (e) {
         e.preventDefault();
@@ -40,7 +40,7 @@ $(function () {
         e.preventDefault();
         if (input.value) {
             messages = new message(input.value, uname);
-            socket.emit('getMessage', { "text": messages.body, "user": messages.username, "time": messages.time });
+            socket.emit('getMessage', { "text": messages.body, "user": messages.username, "time": messages.time, "color":color });
             input.value = '';
         }
     });
@@ -56,14 +56,19 @@ $(function () {
     });
 
     socket.on("history", (data) => {
-        for (let i = 0; i < data["users"].length; i++) {
-            addName(data["users"][i]);
+        if (firstconnection) {
+            for (let i = 0; i < data["users"].length; i++) {
+                addName(data["users"][i]);
+            }
+            let length = Object.keys(data["messages"]).length;
+            console.log(data["messages"]);
+            for (let j = 0; j < length; j++) {
+                addMessage(data["messages"][j]);
+            }
+            color = colors[data["numUsers"] % 13];
         }
-        let length = Object.keys(data["messages"]).length;
-        for (let j = 0; j < length; j++) {
-            addMessage(data["messages"][j]);
-        }
-    })
+        firstconnection = false;
+    });
 
     function scrollToBottom(id) {
         let div = document.querySelector("." + id);
@@ -90,6 +95,7 @@ $(function () {
         div.classList.add("message");
         let p = document.createElement('p');
         p.classList.add('user');
+        p.style.color = data["color"];
         p.innerHTML = data["user"] + " ";
         p.innerHTML += `<span>${data["time"]}</span>`;
         div.appendChild(p);
