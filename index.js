@@ -1,4 +1,5 @@
 
+
 let express = require('express');
 let socket  = require("socket.io");
 let app     = express();
@@ -6,9 +7,14 @@ let server  = app.listen(4000);
 let messages = {};
 let users = [];
 
+//Routing app to files in the public folder
 app.use(express.static('public'));
+
+
 numUsers = 0;
 let io = socket(server);
+
+//Continually check for emits from the client
 io.on('connection', (socket) => {
     numUsers++;
     io.emit("history", {"messages":messages, "users":users, "numUsers":numUsers});
@@ -19,7 +25,8 @@ io.on('connection', (socket) => {
     socket.on("disconnect", () => {
         numUsers--;
     });
-
+    
+    //I only want to store 100 messages at a time so I pop the bottom element if we are at 100
     socket.on("getMessage", (data) => {
         if (Object.keys(messages).length >= 100) {
             delete messages[0];

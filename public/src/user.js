@@ -26,6 +26,7 @@ $(function () {
     let firstconnection = true;
     let color = "";
 
+    //Intercept default submit function for the input boxes on the chat window and username selection
     modalform.addEventListener('submit', function (e) {
         e.preventDefault();
         if (modalinput.value) {
@@ -105,5 +106,6 @@ $(function () {
         div.appendChild(body);
         document.querySelector(".chatbox").appendChild(div);
     }
+
 });
 
