@@ -4,8 +4,7 @@
   "description": "Real time canvas allowing users to draw pictures one pixel at a time with multiple users at once",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "index.js"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Kerry Trusch",
   "license": "MIT",
