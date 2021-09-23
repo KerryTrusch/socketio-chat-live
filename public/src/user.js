@@ -121,8 +121,14 @@ $(function () {
     }
 
     function removeDivs(idHash) {
-        document.querySelectorAll('.userBox').forEach(e => {console.log(String(e.id) + " " + String(idHash)); if (String(e.id) === String(idHash)) {e.remove()}}
-        );
+        let nodes = document.querySelectorAll('.userBox');
+        for (let i = 0; i < nodes.length; i++) {
+            console.log(nodes[i].id);
+            if (nodes[i].id == idHash) {
+                nodes[i].remove();
+                break;
+            }
+        }
     }
 });
 
