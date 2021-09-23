@@ -121,8 +121,7 @@ $(function () {
     }
 
     function removeDivs(idHash) {
-        console.log(String(idHash) + " " + String(socket.id));
-        document.querySelectorAll('.userBox').forEach(e => {if (e.id == idHash) {e.remove()}}
+        document.querySelectorAll('.userBox').forEach(e => {if (String(e.id) === String(idHash)) {e.remove()}}
         );
     }
 });
