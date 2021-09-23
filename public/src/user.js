@@ -96,7 +96,7 @@ $(function () {
     function addName(username) {
         let div = document.createElement('div');
         div.classList.add("userBox");
-        div.id = String(socket.id) + "uname";
+        div.id = String(socket.id);
         let b = document.createElement('b');
         b.classList.add("name");
         b.innerHTML = username;
@@ -107,7 +107,6 @@ $(function () {
     function addMessage(data) {
         let div = document.createElement('div');
         div.classList.add("message");
-        div.id = String(socket.id) + "message";
         let p = document.createElement('p');
         p.classList.add('user');
         p.style.color = data["color"];
@@ -123,7 +122,7 @@ $(function () {
 
     function removeDivs(idHash) {
         console.log(idHash);
-        let unameDiv = document.getElementById(idHash + "uname");
+        let unameDiv = document.getElementById(idHash);
         unameDiv.parentNode.removeChild(unameDiv);
     }
 });
