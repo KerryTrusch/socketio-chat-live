@@ -25,7 +25,6 @@ $(function () {
     input = document.getElementById('chatbar');
     let firstconnection = true;
     let color = "";
-    socket.idHash = '-' + Math.random().toString(36).substr(2, 9);
     let numUsers;
     //Intercept default submit function for the input boxes on the chat window and username selection
     modalform.addEventListener('submit', function (e) {
@@ -80,7 +79,7 @@ $(function () {
         numUsers = numUser;
     });
 
-    socket.on("disconnection", (hash) => {
+    socket.on("disconnected user", (hash) => {
         removeDivs(hash);
     });
 
@@ -97,7 +96,7 @@ $(function () {
     function addName(username) {
         let div = document.createElement('div');
         div.classList.add("userBox");
-        div.id = socket.idHash + "uname";
+        div.id = socket.id + "uname";
         let b = document.createElement('b');
         b.classList.add("name");
         b.innerHTML = username;
@@ -108,7 +107,7 @@ $(function () {
     function addMessage(data) {
         let div = document.createElement('div');
         div.classList.add("message");
-        div.id = socket.idHash + "message";
+        div.id = socket.id + "message";
         let p = document.createElement('p');
         p.classList.add('user');
         p.style.color = data["color"];

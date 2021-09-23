@@ -5,7 +5,6 @@ let app     = express();
 let server  = app.listen(port);
 let messages = {};
 let users = [];
-
 //Routing app to files in the public folder
 app.use(express.static('public'));
 
@@ -22,10 +21,10 @@ io.on('connection', (socket) => {
         users.push(uname);
         io.emit("user joined", uname);
     });
-    socket.on("disconnect", (socket) => {
+    socket.on("disconnect", () => {
         numUsers--;
         io.emit("num users down", numUsers);
-        io.emit("disconnection", socket.idHash);
+        io.emit("disconnected user", socket.id);
     });
     
     //I only want to store 100 messages at a time so I pop the bottom element if we are at 100
