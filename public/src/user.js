@@ -123,7 +123,7 @@ $(function () {
     function removeDivs(idHash) {
         let nodes = document.querySelectorAll('.userBox');
         for (let i = 0; i < nodes.length; i++) {
-            console.log(nodes[i].id + " " + nodes[i]);
+            console.log(nodes[i].id + " " + nodes[i].innerHTML);
             if (nodes[i].id == idHash) {
                 nodes[i].remove();
                 break;
