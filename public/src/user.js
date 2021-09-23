@@ -25,7 +25,7 @@ $(function () {
     input = document.getElementById('chatbar');
     let firstconnection = true;
     let color = "";
-    let idHash = '-' + Math.random().toString(36).substr(2, 9);
+    socket.idHash = '-' + Math.random().toString(36).substr(2, 9);
     let numUsers;
     //Intercept default submit function for the input boxes on the chat window and username selection
     modalform.addEventListener('submit', function (e) {
@@ -72,16 +72,16 @@ $(function () {
         firstconnection = false;
     });
 
-    socket.on("user joined", (numUser) => {
+    socket.on("num users up", (numUser) => {
         numUsers = numUser;
     });
 
-    socket.on("user left", (numUser) => {
+    socket.on("num users down", (numUser) => {
         numUsers = numUser;
     });
 
-    socket.on("disconnect", () => {
-        removeDivs();
+    socket.on("disconnection", (hash) => {
+        removeDivs(hash);
     });
 
     function scrollToBottom(id) {
@@ -122,7 +122,7 @@ $(function () {
         document.querySelector(".chatbox").appendChild(div);
     }
 
-    function removeDivs() {
+    function removeDivs(idHash) {
         let unameDiv = document.getElementById(idHash + "uname");
         let bodyDiv = document.getElementById(idHash + "message");
         unameDiv.parentNode.removeChild(unameDiv);
