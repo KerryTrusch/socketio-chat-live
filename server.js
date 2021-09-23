@@ -5,6 +5,7 @@ let app     = express();
 let server  = app.listen(port);
 let messages = {};
 let users = [];
+let divs = [];
 //Routing app to files in the public folder
 app.use(express.static('public'));
 
@@ -39,4 +40,12 @@ io.on('connection', (socket) => {
         messages[Object.keys(messages).length] = {"text": data["text"], "user": data["user"], "time": data["time"], "color": data["color"]};
         io.emit("messageRecieved", data);
     });
+
+    socket.on("new name object", (div) => {
+        divs.push(div);
+    });
+
+    socket.on("request divs", () => {
+        return divs;
+    })
 });

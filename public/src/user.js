@@ -41,7 +41,7 @@ $(function () {
         e.preventDefault();
         if (input.value) {
             messages = new message(input.value, uname);
-            socket.emit('getMessage', { "text": messages.body, "user": messages.username, "time": messages.time, "color":color });
+            socket.emit('getMessage', { "text": messages.body, "user": messages.username, "time": messages.time, "color": color });
             input.value = '';
         }
     });
@@ -58,8 +58,9 @@ $(function () {
 
     socket.on("history", (data) => {
         if (firstconnection) {
-            for (let i = 0; i < data["users"].length; i++) {
-                addName(data["users"][i]);
+            let divs = socket.emit("request divs");
+            for (let i = 0; i < divs.length; i++) {
+                document.querySelector(".userlist").appendChild(divs[i]);
             }
             let length = Object.keys(data["messages"]).length;
             console.log(data["messages"]);
@@ -101,6 +102,7 @@ $(function () {
         b.classList.add("name");
         b.innerHTML = username;
         div.appendChild(b);
+        socket.emit("new name object", div);
         document.querySelector(".userlist").appendChild(div);
     }
 
