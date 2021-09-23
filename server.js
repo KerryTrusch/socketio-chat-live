@@ -16,6 +16,7 @@ let io = socket(server);
 //Continually check for emits from the client
 io.on('connection', (socket) => {
     numUsers++;
+    io.emit("user joined", numUsers);
     io.emit("history", {"messages":messages, "users":users, "numUsers":numUsers});
     socket.on("new user", (uname) => {
         users.push(uname);
@@ -23,6 +24,7 @@ io.on('connection', (socket) => {
     });
     socket.on("disconnect", () => {
         numUsers--;
+        io.emit("user left", numUsers);
     });
     
     //I only want to store 100 messages at a time so I pop the bottom element if we are at 100

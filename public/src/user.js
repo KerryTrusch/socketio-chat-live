@@ -25,7 +25,8 @@ $(function () {
     input = document.getElementById('chatbar');
     let firstconnection = true;
     let color = "";
-
+    let idHash = '-' + Math.random().toString(36).substr(2, 9);
+    let numUsers;
     //Intercept default submit function for the input boxes on the chat window and username selection
     modalform.addEventListener('submit', function (e) {
         e.preventDefault();
@@ -71,6 +72,18 @@ $(function () {
         firstconnection = false;
     });
 
+    socket.on("user joined", (numUser) => {
+        numUsers = numUser;
+    });
+
+    socket.on("user left", (numUser) => {
+        numUsers = numUser;
+    });
+
+    socket.on("disconnect", () => {
+        removeDivs();
+    });
+
     function scrollToBottom(id) {
         let div = document.querySelector("." + id);
         $("#" + id).animate(
@@ -84,6 +97,7 @@ $(function () {
     function addName(username) {
         let div = document.createElement('div');
         div.classList.add("userBox");
+        div.id = idHash + "uname";
         let b = document.createElement('b');
         b.classList.add("name");
         b.innerHTML = username;
@@ -94,6 +108,7 @@ $(function () {
     function addMessage(data) {
         let div = document.createElement('div');
         div.classList.add("message");
+        div.id = idHash + "message";
         let p = document.createElement('p');
         p.classList.add('user');
         p.style.color = data["color"];
@@ -107,5 +122,11 @@ $(function () {
         document.querySelector(".chatbox").appendChild(div);
     }
 
+    function removeDivs() {
+        let unameDiv = document.getElementById(idHash + "uname");
+        let bodyDiv = document.getElementById(idHash + "message");
+        unameDiv.parentNode.removeChild(unameDiv);
+        bodyDiv.parentNode.removeChild(bodyDiv);
+    }
 });
 
