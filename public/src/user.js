@@ -122,7 +122,7 @@ $(function () {
 
     function removeDivs(idHash) {
         console.log(idHash);
-        let unameDiv = document.getElementById(idHash);
+        let unameDiv = document.querySelector(".userlist").getElementById(idHash);
         unameDiv.parentNode.removeChild(unameDiv);
     }
 });
