@@ -121,9 +121,11 @@ $(function () {
     }
 
     function removeDivs(idHash) {
-        console.log(idHash);
-        let unameDiv = document.querySelector(".userlist").getElementById(idHash);
-        unameDiv.parentNode.removeChild(unameDiv);
+        document.querySelectorAll('.userBox').forEach(e => {
+            if (e.getElementById(String(idHash)) == idHash) {
+                e.remove();
+            }
+        });
     }
 });
 
