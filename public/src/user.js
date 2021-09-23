@@ -123,6 +123,7 @@ $(function () {
     }
 
     function removeDivs(idHash) {
+        console.log(idHash);
         let unameDiv = document.getElementById(idHash + "uname");
         let bodyDiv = document.getElementById(idHash + "message");
         unameDiv.parentNode.removeChild(unameDiv);
