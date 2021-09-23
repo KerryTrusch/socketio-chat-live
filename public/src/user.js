@@ -97,7 +97,7 @@ $(function () {
     function addName(username) {
         let div = document.createElement('div');
         div.classList.add("userBox");
-        div.id = idHash + "uname";
+        div.id = socket.idHash + "uname";
         let b = document.createElement('b');
         b.classList.add("name");
         b.innerHTML = username;
@@ -108,7 +108,7 @@ $(function () {
     function addMessage(data) {
         let div = document.createElement('div');
         div.classList.add("message");
-        div.id = idHash + "message";
+        div.id = socket.idHash + "message";
         let p = document.createElement('p');
         p.classList.add('user');
         p.style.color = data["color"];
