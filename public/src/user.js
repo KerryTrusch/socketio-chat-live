@@ -121,7 +121,7 @@ $(function () {
     }
 
     function removeDivs(idHash) {
-        document.querySelectorAll('.userBox').forEach(e => e.remove() 
+        document.querySelectorAll('.userBox').forEach(e => {if (e.idHash) {e.remove()}}
         );
     }
 });
