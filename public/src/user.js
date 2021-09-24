@@ -1,7 +1,4 @@
 $(function () {
-    //HOW TO FIX NAMES
-    //"user joined" has to use the socket id of other clients NOT ITS OWN ID TO BUILD EACH ONE
-    //"history" has the right idea but it's broke
     const socket = io();
     const colors = [
         "#FFFFFF",
