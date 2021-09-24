@@ -20,7 +20,7 @@ io.on('connection', (socket) => {
     io.emit("history", {"messages":messages, "users":users, "numUsers":numUsers});
     socket.on("new user", (uname) => {
         users.push(uname);
-        io.emit("user joined", uname);
+        io.emit("user joined", {"newName": uname, "userId":socket.id});
     });
     socket.on("disconnect", () => {
         numUsers--;

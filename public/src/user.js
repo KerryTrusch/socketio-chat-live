@@ -53,14 +53,15 @@ $(function () {
         scrollToBottom("chatbox");
     });
 
-    socket.on("user joined", (newName) => {
-        addName(newName);
+    socket.on("user joined", (data) => {
+        addName(data["newName"], data["userId"]);
         scrollToBottom('userlist');
     });
 
     socket.on("history", (data) => {
         if (firstconnection) {
             let divs = socket.emit("request divs");
+            console.log(divs);
             for (let i = 0; i < divs.length; i++) {
                 document.querySelector(".userlist").appendChild(divs[i]);
             }
