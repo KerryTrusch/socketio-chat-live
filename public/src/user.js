@@ -61,9 +61,8 @@ $(function () {
     socket.on("history", (data) => {
         if (firstconnection) {
             let divs = socket.emit("request divs");
-            console.log(divs);
             for (let i = 0; i < divs.length; i++) {
-                document.querySelector(".userlist").appendChild(divs[i]);
+                $(divs[i]).appendTo("userlist");
             }
             let length = Object.keys(data["messages"]).length;
             for (let j = 0; j < length; j++) {
@@ -104,7 +103,7 @@ $(function () {
         b.classList.add("name");
         b.innerHTML = username;
         div.appendChild(b);
-        socket.emit("new name object", div);
+        socket.emit("new name object", div.outerHTML);
         document.querySelector(".userlist").appendChild(div);
     }
 
