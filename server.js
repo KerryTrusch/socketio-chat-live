@@ -15,6 +15,7 @@ let io = socket(server);
 
 //Continually check for emits from the client
 io.on('connection', (socket) => {
+    console.log(divs);
     numUsers++;
     io.emit("num users up", numUsers);
     io.emit("history", {"messages":messages, "users":users, "numUsers":numUsers});
