@@ -96,10 +96,10 @@ $(function () {
         );
     }
 
-    function addName(username) {
+    function addName(username, userId) {
         let div = document.createElement('div');
         div.classList.add("userBox");
-        div.id = String(socket.id);
+        div.id = userId;
         let b = document.createElement('b');
         b.classList.add("name");
         b.innerHTML = username;
