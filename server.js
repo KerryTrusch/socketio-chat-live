@@ -4,8 +4,7 @@ let socket  = require("socket.io");
 let app     = express();
 let server  = app.listen(port);
 let messages = {};
-let users = [];
-let divs = [];
+let users = {};
 //Routing app to files in the public folder
 app.use(express.static('public'));
 
@@ -15,16 +14,16 @@ let io = socket(server);
 
 //Continually check for emits from the client
 io.on('connection', (socket) => {
-    console.log(divs);
     numUsers++;
     io.emit("num users up", numUsers);
     io.emit("history", {"messages":messages, "users":users, "numUsers":numUsers});
     socket.on("new user", (uname) => {
-        users.push(uname);
-        io.emit("user joined", {"newName": uname, "userId":socket.id});
+        users[uname["id"]] = uname["uname"];
+        io.emit("user joined", {"newName": uname["uname"], "userId":uname["id"]});
     });
     socket.on("disconnect", () => {
         numUsers--;
+        delete users[socket.id]
         io.emit("num users down", numUsers);
         io.emit("disconnected user", socket.id);
     });
@@ -42,11 +41,7 @@ io.on('connection', (socket) => {
         io.emit("messageRecieved", data);
     });
 
-    socket.on("new name object", (div) => {
-        divs.push(div);
-    });
-
-    socket.on("request divs", () => {
-        return divs;
+    socket.on("get users", () => {
+        socket.emit("users sent", users);
     })
 });

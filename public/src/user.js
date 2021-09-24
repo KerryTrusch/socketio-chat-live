@@ -36,7 +36,7 @@ $(function () {
             input.value = '';
             $('#modal').fadeOut("slow", function () { });
         }
-        socket.emit("new user", uname);
+        socket.emit("new user", {"id":socket.id, "uname":uname});
     });
 
     form.addEventListener('submit', function (e) {
@@ -60,11 +60,12 @@ $(function () {
 
     socket.on("history", (data) => {
         if (firstconnection) {
-            let divs = socket.emit("request divs");
-            console.log("here: " + divs);
-            for (let i = 0; i < divs.length; i++) {
-                $(divs[i]).appendTo("userlist");
-            }
+            socket.emit("get users");
+            socket.on("users sent", (users) => {
+                for (let key in users) {
+                    addName(users[key], key)
+                }
+            });
             let length = Object.keys(data["messages"]).length;
             for (let j = 0; j < length; j++) {
                 addMessage(data["messages"][j]);
@@ -104,7 +105,6 @@ $(function () {
         b.classList.add("name");
         b.innerHTML = username;
         div.appendChild(b);
-        socket.emit("new name object", div.outerHTML);
         document.querySelector(".userlist").appendChild(div);
     }
 
