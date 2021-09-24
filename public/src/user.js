@@ -66,7 +66,6 @@ $(function () {
                 document.querySelector(".userlist").appendChild(divs[i]);
             }
             let length = Object.keys(data["messages"]).length;
-            console.log(data["messages"]);
             for (let j = 0; j < length; j++) {
                 addMessage(data["messages"][j]);
             }
@@ -128,7 +127,6 @@ $(function () {
     function removeDivs(idHash) {
         let nodes = document.querySelectorAll('.userBox');
         for (let i = 0; i < nodes.length; i++) {
-            console.log(nodes[i].id + " " + nodes[i].innerHTML);
             if (nodes[i].id == idHash) {
                 nodes[i].remove();
                 break;

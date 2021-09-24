@@ -46,6 +46,7 @@ io.on('connection', (socket) => {
     });
 
     socket.on("request divs", () => {
+        console.log(divs);
         return divs;
     })
 });
