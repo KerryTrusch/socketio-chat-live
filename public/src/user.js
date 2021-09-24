@@ -61,6 +61,7 @@ $(function () {
     socket.on("history", (data) => {
         if (firstconnection) {
             let divs = socket.emit("request divs");
+            console.log("here: " + divs);
             for (let i = 0; i < divs.length; i++) {
                 $(divs[i]).appendTo("userlist");
             }

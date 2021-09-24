@@ -43,7 +43,6 @@ io.on('connection', (socket) => {
     });
 
     socket.on("new name object", (div) => {
-        console.log(div);
         divs.push(div);
     });
 
