@@ -28,12 +28,12 @@ $(function () {
     //Intercept default submit function for the input boxes on the chat window and username selection
     modalform.addEventListener('submit', function (e) {
         e.preventDefault();
-        if (modalinput.value) {
+        if (modalinput.value && modalinput.value.length <= 20 && modalinput.value.length > 0) {
             uname = modalinput.value;
             input.value = '';
             $('#modal').fadeOut("slow", function () { });
+            socket.emit("new user", { "id": socket.id, "uname": uname });
         }
-        socket.emit("new user", {"id":socket.id, "uname":uname});
     });
 
     form.addEventListener('submit', function (e) {
@@ -74,10 +74,12 @@ $(function () {
 
     socket.on("num users up", (numUser) => {
         numUsers = numUser;
+        addCurrUsers();
     });
 
     socket.on("num users down", (numUser) => {
         numUsers = numUser;
+        addCurrUsers();
     });
 
     socket.on("disconnected user", (hash) => {
@@ -121,6 +123,24 @@ $(function () {
         document.querySelector(".chatbox").appendChild(div);
     }
 
+    function addCurrUsers() {
+        let text = "";
+        if (numUsers == 1) {
+            text = "1 user currently connected";
+        } else {
+            text = String(numUsers) + " users currently connected";
+        }
+        if (document.getElementById("users")) {
+            document.getElementById("users").innerHTML = text;
+        } else {
+            let p = document.createElement("p");
+            p.classList.add('numUsers');
+            p.id = "users";
+            p.innerHTML = text;
+            document.querySelector(".userlist").appendChild(p);
+        }
+    }
+    
     function removeDivs(idHash) {
         let nodes = document.querySelectorAll('.userBox');
         for (let i = 0; i < nodes.length; i++) {
