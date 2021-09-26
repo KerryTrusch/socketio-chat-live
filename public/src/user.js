@@ -25,6 +25,7 @@ $(function () {
     let firstconnection = true;
     let color = "";
     let numUsers;
+    let imgsrc = "img/default.jpg";
     //Intercept default submit function for the input boxes on the chat window and username selection
     modalform.addEventListener('submit', function (e) {
         e.preventDefault();
@@ -110,6 +111,9 @@ $(function () {
     function addMessage(data) {
         let div = document.createElement('div');
         div.classList.add("message");
+        let img = document.createElement('img');
+        img.src = imgsrc;
+        div.appendChild(img);
         let p = document.createElement('p');
         p.classList.add('user');
         p.style.color = data["color"];

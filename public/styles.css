@@ -79,7 +79,7 @@ body, html {
     background-color: #23272A;
 }
 
-.chatwindow img {
+.chatwindow #cog {
     position:absolute;
     top:3%;
     left: 95%;
@@ -87,7 +87,7 @@ body, html {
     z-index: 3;
 }
 
-.chatwindow img:hover {
+.chatwindow #cog:hover {
     filter: invert(40%);
 }
 /* end of main chat window */
@@ -105,7 +105,7 @@ body, html {
 
 .inputbox {
     position:absolute;
-    left: 15%;
+    left: 12%;
     top: 90%;
     height:5%;
     width:80%;
@@ -164,15 +164,17 @@ body, html {
 
 /* Messages that appear in chatting area */
 .chatbox .message {
+    display: grid;
     padding:10px;
     overflow-wrap:break-word;
     max-width: 80%;
+    margin-bottom: 1vw;
 }
 
 .chatbox .message img {
     position: absolute;
-    left: -5%;
-
+    border-radius: 50%;
+    height: 5%;
 }
 
 .chatbox .user {
@@ -185,6 +187,7 @@ body, html {
 }
 
 .chatbox .body {
+    display:inline;
     position:relative;
     left:5%;
     color:white;
