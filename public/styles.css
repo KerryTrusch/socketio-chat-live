@@ -1,6 +1,7 @@
 html, body {
     width: 100%;
     height: 100%;
+    overflow:hidden;
 }
 
 
@@ -77,18 +78,18 @@ html, body {
     top:3%;
     left: 95%;
     height:3%;
-    width:2%;
     z-index: 3;
 }
 
 .chatwindow img:hover {
     filter: invert(40%);
 }
+
 .chatbox {
     position:absolute;
     left:13%;
     padding:0;
-    max-height: 90%;
+    height: 90%;
     overflow-y: scroll;
     width:87%;
 }
@@ -143,6 +144,7 @@ html, body {
     left: -5%;
 
 }
+
 .chatbox .user {
     position:relative;
     left:10%;
@@ -172,7 +174,6 @@ html, body {
     width:100%;
     height:3%;
 }
-
 
 .name {
     position:relative;
