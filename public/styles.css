@@ -66,6 +66,7 @@ html, body {
     outline:0;
 }
 
+/* main chat window that user list and chatbox sit in */
 .chatwindow {
     position: relative;
     height: 100%;
@@ -84,14 +85,14 @@ html, body {
 .chatwindow img:hover {
     filter: invert(40%);
 }
+/* end of main chat window */
 
+
+/* Start of box where messages go, the area messages reside */
 .chatbox {
-    position:absolute;
-    left:13%;
-    padding:0;
     height: 90%;
     overflow-y: scroll;
-    width:87%;
+    width:100%;
 }
 
 .inputbox {
@@ -113,7 +114,6 @@ html, body {
     width:100%;
     background-color: #2C2F33;
     border-radius: 8px;
-    padding:1.5vh;
     color:white;
 }
 
@@ -121,7 +121,6 @@ html, body {
     position: relative;
     width:13%;
     text-align: center;
-    top: -5%;
     height:100%;
     background-color: #181a1b;
     z-index: 5;
