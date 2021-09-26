@@ -141,6 +141,10 @@ $(function () {
         }
     }
     
+    $("#cog").click(function () {
+        $(".optionsModal").fadeIn("fast", () => {})
+    });
+
     function removeDivs(idHash) {
         let nodes = document.querySelectorAll('.userBox');
         for (let i = 0; i < nodes.length; i++) {
