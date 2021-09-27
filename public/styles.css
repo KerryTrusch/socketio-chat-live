@@ -40,6 +40,39 @@ body, html {
 .optionsModal .wrapper img {position:absolute; height:8%; left:85%; top:2%;}
 .optionsModal .wrapper img:hover {filter:invert(20%);}
 
+.optionsModal .optionChoices {
+    display:flex;
+    flex-direction: column;
+    height: 80%;
+    width: 100%;
+    top:20%;
+}
+
+.form-wrapper {position:relative; height:45%; left:40%}
+.form-wrapper input {display:none;}
+.filelabel {
+    text-align: center;
+    font-size: 1vh;
+    color:white;
+}
+.file-img-text {
+    position:relative;
+    left:-40%;
+    top:10%;
+    z-index: 2;
+    color:white;
+}
+.optionsModal .optionChoices label img {
+    position:absolute;
+    border-radius: 50%;
+    width: 15%;
+}
+
+.optionsModal .optionChoices label:hover img {
+    filter: invert(30%);
+}
+
+
 .usernameModal-inner {
     text-align: center;
     position:fixed;
