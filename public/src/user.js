@@ -149,6 +149,9 @@ $(function () {
         $(".optionsModal").fadeIn("fast", () => {})
     });
 
+    $("#xbutton").click(function () {
+        $(".optionsModal").fadeOut("fast", () => {})
+    });
     function removeDivs(idHash) {
         let nodes = document.querySelectorAll('.userBox');
         for (let i = 0; i < nodes.length; i++) {
