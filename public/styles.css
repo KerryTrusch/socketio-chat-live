@@ -179,11 +179,12 @@ body, html {
     position: absolute;
     border-radius: 50%;
     height: 5%;
+    left: 2%
 }
 
 .chatbox .user {
     position:relative;
-    left: 5%;
+    left: 7%;
     font-weight: bold;
     opacity: 0.7;
     margin-bottom: 0px;
@@ -193,7 +194,7 @@ body, html {
 .chatbox .body {
     display:inline;
     position:relative;
-    left:5%;
+    left:7%;
     color:white;
     font-size:2em;
 }
