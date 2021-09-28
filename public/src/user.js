@@ -47,7 +47,9 @@ $(function () {
         }
     });
 
-    
+    selectedFile.addEventListener('change', function (e) {
+        const fileList = this.files[0];
+    });
     socket.on("messageRecieved", (data) => {
         addMessage(data);
         scrollToBottom("chatbox");
