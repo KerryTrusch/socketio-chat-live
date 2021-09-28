@@ -22,6 +22,7 @@ $(function () {
     modalinput = document.getElementById('userInput');
     form = document.getElementById('chatform');
     input = document.getElementById('chatbar');
+    selectedFile = document.getElementById('imgform');
     let firstconnection = true;
     let color = "";
     let numUsers;
@@ -46,6 +47,7 @@ $(function () {
         }
     });
 
+    
     socket.on("messageRecieved", (data) => {
         addMessage(data);
         scrollToBottom("chatbox");
@@ -155,7 +157,7 @@ $(function () {
 
     $("#filelabel").hover(
         function() {
-            $(".file-img-text").text("Change Avatar");
+            $(".file-img-text").html("Change<br>Avatar");
           }
     );
     function removeDivs(idHash) {

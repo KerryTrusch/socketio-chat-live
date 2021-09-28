@@ -52,26 +52,26 @@ body, html {
 .form-wrapper input {display:none;}
 .filelabel {
     text-align: center;
-    font-size: 1vh;
+    font-size: 2vh;
     color:white;
 }
 .file-img-text {
     position:relative;
     left:-40%;
-    top:10%;
+    top:15%;
     z-index: 2;
     color:white;
+    opacity: 0;
 }
 .optionsModal .optionChoices label img {
     position:absolute;
     border-radius: 50%;
+    left:2.5%;
     width: 15%;
 }
 
-.optionsModal .optionChoices label:hover img {
-    filter: invert(30%);
-}
-
+.optionsModal .optionChoices label:hover img {filter: invert(30%);}
+.optionsModal .optionChoices label:hover .file-img-text {opacity: 1;}
 
 .usernameModal-inner {
     text-align: center;
