@@ -15,7 +15,6 @@ $(function () {
         "#0000EA",
         "#820080"
     ];
-
     let messages;
     let uname = '';
     modalform = document.getElementById('modalform');
@@ -47,9 +46,16 @@ $(function () {
         }
     });
 
-    selectedFile.addEventListener('change', function (e) {
-        const fileList = this.files[0];
+    $("#fileupload").on('change', function() {
+        let reader = new FileReader();
+        reader.onload = function (e) {
+            let thisImage = reader.result;
+            imgsrc = thisImage;
+            $("#pfppreview").attr("src", thisImage);
+        }
+        reader.readAsDataURL(this.files[0]);
     });
+
     socket.on("messageRecieved", (data) => {
         addMessage(data);
         scrollToBottom("chatbox");
@@ -62,6 +68,7 @@ $(function () {
 
     socket.on("history", (data) => {
         if (firstconnection) {
+            localStorage.removeItem("imgdata");
             socket.emit("get users");
             socket.on("users sent", (users) => {
                 for (let key in users) {

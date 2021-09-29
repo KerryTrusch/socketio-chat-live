@@ -67,7 +67,9 @@ body, html {
     position:absolute;
     border-radius: 50%;
     left:2.5%;
-    width: 15%;
+    width: 10rem;
+    height: 10rem;
+    object-fit: cover;
 }
 
 .optionsModal .optionChoices label:hover img {filter: invert(30%);}
@@ -211,8 +213,12 @@ body, html {
 .chatbox .message img {
     position: absolute;
     border-radius: 50%;
-    height: 5%;
-    left: 2%
+    height: 4rem;
+    width:4rem;
+    left: 2%;
+
+    /* scales different resolution images to same size */
+    object-fit: cover;
 }
 
 .chatbox .user {
