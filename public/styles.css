@@ -1,8 +1,9 @@
 * {
     margin: 0;
     padding: 0;
-    font-size: 100%;
+    font-size: 16px;
     overflow-x:hidden;
+    font-family: sans-serif;
 }
 
 body, html {
@@ -22,6 +23,7 @@ body, html {
     background-color:rgba(0, 0, 0, 0.5);
 }
 
+/* options menu */
 .optionsModal {
     position: fixed;
     display: none;
@@ -55,14 +57,16 @@ body, html {
     font-size: 2vh;
     color:white;
 }
+
 .file-img-text {
     position:relative;
     left:-40%;
-    top:15%;
+    top:22%;
     z-index: 2;
     color:white;
     opacity: 0;
 }
+
 .optionsModal .optionChoices label img {
     position:absolute;
     border-radius: 50%;
@@ -74,6 +78,32 @@ body, html {
 
 .optionsModal .optionChoices label:hover img {filter: invert(30%);}
 .optionsModal .optionChoices label:hover .file-img-text {opacity: 1;}
+
+.optionChoices .slider {
+    position:relative;
+    width: 60%;
+    top: 20%;
+    left: 20%;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+    outline: none;
+}
+
+.slider:hover {
+    opacity: 1;
+}
+
+#change-text-size {
+    position: relative;
+    left:42%;
+    color:white;
+    font-size: 1.5rem;
+    padding-bottom: 5px;
+}
+
+#px12 {position: relative; color:white; font-size:1.3rem; left:20%;}
+#px16 {position: relative; color:white; font-size:1.3rem; left:43%;}
+#px24 {position: relative; color:white; font-size:1.3rem; left:65%;}
 
 .usernameModal-inner {
     text-align: center;
@@ -144,10 +174,10 @@ body, html {
 
 .inputbox {
     position:absolute;
-    left: 12%;
+    left: 11.6%;
     top: 90%;
     height:5%;
-    width:80%;
+    width:85%;
     background-color: #2C2F33;
     border-radius: 8px;
     overflow-y: hidden;
@@ -160,6 +190,7 @@ body, html {
     background-color: #2C2F33;
     border-radius: 8px;
     color:white;
+    padding-left: 10px;
 }
 
 /* Far left side of screen that holds usernames */
@@ -171,9 +202,9 @@ body, html {
     background-color: #181a1b;
 }
 
-.userlist span {
+.userlist span b {
     position:relative;
-    font-size: 1vw;
+    font-size: 1.5vw;
     color:white;
 }
 
@@ -210,7 +241,7 @@ body, html {
     margin-bottom: 1vw;
 }
 
-.chatbox .message img {
+.chatbox .text-pfp {
     position: absolute;
     border-radius: 50%;
     height: 4rem;

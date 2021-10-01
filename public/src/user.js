@@ -17,15 +17,16 @@ $(function () {
     ];
     let messages;
     let uname = '';
-    modalform = document.getElementById('modalform');
-    modalinput = document.getElementById('userInput');
-    form = document.getElementById('chatform');
-    input = document.getElementById('chatbar');
-    selectedFile = document.getElementById('imgform');
+    let modalform = document.getElementById('modalform');
+    let modalinput = document.getElementById('userInput');
+    let form = document.getElementById('chatform');
+    let input = document.getElementById('chatbar');
     let firstconnection = true;
     let color = "";
     let numUsers;
     let imgsrc = "img/default.jpg";
+    let sliderVals = {1: [12, 3], 2: [16, 4], 3: [24, 5]};
+    let slider = document.getElementById('slider');
     //Intercept default submit function for the input boxes on the chat window and username selection
     modalform.addEventListener('submit', function (e) {
         e.preventDefault();
@@ -56,9 +57,14 @@ $(function () {
         reader.readAsDataURL(this.files[0]);
     });
 
+    $('#slider').change(function() {
+        changeSize($(this).val());
+    });
+
     socket.on("messageRecieved", (data) => {
         addMessage(data);
         scrollToBottom("chatbox");
+        changeSize(slider.value);
     });
 
     socket.on("user joined", (data) => {
@@ -123,6 +129,7 @@ $(function () {
         let div = document.createElement('div');
         div.classList.add("message");
         let img = document.createElement('img');
+        img.classList.add("text-pfp");
         img.src = data['imgsrc'];
         div.appendChild(img);
         let p = document.createElement('p');
@@ -177,6 +184,12 @@ $(function () {
                 break;
             }
         }
+    }
+
+    function changeSize(size) {
+        $('.message').css('font-size', sliderVals[size][0] + "px");
+        $('.text-pfp').css('height', sliderVals[size][1] + "rem");
+        $('.text-pfp').css('width', sliderVals[size][1] + "rem");
     }
 });
 
