@@ -37,7 +37,7 @@ io.on('connection', (socket) => {
                 delete messages[i+1];
             }
         }
-        messages[Object.keys(messages).length] = {"text": data["text"], "user": data["user"], "time": data["time"], "color": data["color"]};
+        messages[Object.keys(messages).length] = {"text": data["text"], "user": data["user"], "time": data["time"], "color": data["color"], "imgsrc": data["imgsrc"]};
         io.emit("messageRecieved", data);
     });
 

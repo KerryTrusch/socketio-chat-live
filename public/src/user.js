@@ -15,16 +15,19 @@ $(function () {
         "#0000EA",
         "#820080"
     ];
-
     let messages;
     let uname = '';
-    modalform = document.getElementById('modalform');
-    modalinput = document.getElementById('userInput');
-    form = document.getElementById('chatform');
-    input = document.getElementById('chatbar');
+    let modalform = document.getElementById('modalform');
+    let modalinput = document.getElementById('userInput');
+    let form = document.getElementById('chatform');
+    let input = document.getElementById('chatbar');
     let firstconnection = true;
     let color = "";
     let numUsers;
+    let imgsrc = "img/default.jpg";
+    let sliderVals = {1: [12, 3], 2: [16, 4], 3: [24, 5]};
+    let slider = document.getElementById('slider');
+
     //Intercept default submit function for the input boxes on the chat window and username selection
     modalform.addEventListener('submit', function (e) {
         e.preventDefault();
@@ -40,14 +43,29 @@ $(function () {
         e.preventDefault();
         if (input.value) {
             messages = new message(input.value, uname);
-            socket.emit('getMessage', { "text": messages.body, "user": messages.username, "time": messages.time, "color": color });
+            socket.emit('getMessage', { "text": messages.body, "user": messages.username, "time": messages.time, "color": color, "imgsrc": imgsrc });
             input.value = '';
         }
+    });
+
+    $("#fileupload").on('change', function() {
+        let reader = new FileReader();
+        reader.onload = function (e) {
+            let thisImage = reader.result;
+            imgsrc = thisImage;
+            $("#pfppreview").attr("src", thisImage);
+        }
+        reader.readAsDataURL(this.files[0]);
+    });
+
+    $('#slider').change(function() {
+        changeSize($(this).val());
     });
 
     socket.on("messageRecieved", (data) => {
         addMessage(data);
         scrollToBottom("chatbox");
+        changeSize(slider.value);
     });
 
     socket.on("user joined", (data) => {
@@ -55,8 +73,10 @@ $(function () {
         scrollToBottom('userlist');
     });
 
+    // Only retrieves divs on first connect
     socket.on("history", (data) => {
         if (firstconnection) {
+            localStorage.removeItem("imgdata");
             socket.emit("get users");
             socket.on("users sent", (users) => {
                 for (let key in users) {
@@ -110,6 +130,10 @@ $(function () {
     function addMessage(data) {
         let div = document.createElement('div');
         div.classList.add("message");
+        let img = document.createElement('img');
+        img.classList.add("text-pfp");
+        img.src = data['imgsrc'];
+        div.appendChild(img);
         let p = document.createElement('p');
         p.classList.add('user');
         p.style.color = data["color"];
@@ -145,6 +169,23 @@ $(function () {
         $(".optionsModal").fadeIn("fast", () => {})
     });
 
+    $("#xbutton").click(function () {
+        $(".optionsModal").fadeOut("fast", () => {})
+    });
+
+    $('body').click(function (event) {
+        if (!event.target.closest('.optionsModal') && !event.target.closest('#cog')) {
+            $(".optionsModal").fadeOut("fast", () => {})
+        }
+    });
+
+    $("#filelabel").hover(
+        function() {
+            $(".file-img-text").html("Change<br>Avatar");
+          }
+    );
+
+    // This removes the user on the left hand side by identifying their div using the unique socket.io id given to them 
     function removeDivs(idHash) {
         let nodes = document.querySelectorAll('.userBox');
         for (let i = 0; i < nodes.length; i++) {
@@ -153,6 +194,12 @@ $(function () {
                 break;
             }
         }
+    }
+
+    function changeSize(size) {
+        $('.message').css('font-size', sliderVals[size][0] + "px");
+        $('.text-pfp').css('height', sliderVals[size][1] + "rem");
+        $('.text-pfp').css('width', sliderVals[size][1] + "rem");
     }
 });
 
