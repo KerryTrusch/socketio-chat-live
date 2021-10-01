@@ -27,7 +27,7 @@ $(function () {
     let imgsrc = "img/default.jpg";
     let sliderVals = {1: [12, 3], 2: [16, 4], 3: [24, 5]};
     let slider = document.getElementById('slider');
-    
+
     //Intercept default submit function for the input boxes on the chat window and username selection
     modalform.addEventListener('submit', function (e) {
         e.preventDefault();
@@ -171,6 +171,12 @@ $(function () {
 
     $("#xbutton").click(function () {
         $(".optionsModal").fadeOut("fast", () => {})
+    });
+
+    $('body').click(function (event) {
+        if (!event.target.closest('.optionsModal') && !event.target.closest('#cog')) {
+            $(".optionsModal").fadeOut("fast", () => {})
+        }
     });
 
     $("#filelabel").hover(
