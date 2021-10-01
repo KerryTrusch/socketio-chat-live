@@ -191,6 +191,7 @@ body, html {
     border-radius: 8px;
     color:white;
     padding-left: 10px;
+    outline: none;
 }
 
 /* Far left side of screen that holds usernames */
