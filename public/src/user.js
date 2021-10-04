@@ -76,14 +76,13 @@ $(function () {
     // Only retrieves divs on first connect
     socket.on("history", (data) => {
         if (firstconnection) {
-            localStorage.removeItem("imgdata");
             socket.emit("get users");
             socket.on("users sent", (users) => {
                 for (let key in users) {
                     addName(users[key], key)
                 }
             });
-            let length = Object.keys(data["messages"]).length;
+            let length = data["messages"].length;
             for (let j = 0; j < length; j++) {
                 addMessage(data["messages"][j]);
             }
