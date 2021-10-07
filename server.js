@@ -6,7 +6,10 @@ const mongoose = require('mongoose');
 let server = app.listen(port);
 let messages = [];
 let users = {};
+
+//Route to a particular room; this pulls from a mongoDB collection of those messages
 let room = "global_room";
+
 //Setting up mongoDB using mongoose
 const uri = process.env.MONGODB_URI || "mongodb+srv://dbAdmin:B2f9bxS%40t7%40i93j@cluster0.rcn3r.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
 main().catch(err => console.log(err));
