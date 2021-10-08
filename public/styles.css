@@ -11,6 +11,43 @@ body, html {
     width:100%;
 }
 
+
+/* server login menu */
+#server_browser {
+    height: 100%;
+    width: 100%;
+    background-color: #23272A;
+}
+
+#server_browser h1 {
+    position: absolute;
+    left: 40%;
+    font-size: 5rem;
+    color:white;
+}
+
+.server_menu_box {
+    position: relative;
+    width: 60%;
+    height: 50%;
+    left: 22%;
+    top: 20%;
+    background-color:white;
+    overflow-y: scroll;
+}
+
+.server_list {
+    width:70%;
+    height: 10%;
+    background-color:lightgrey;
+    font-size: 2rem;
+    color:black;
+}
+
+#chat_content {
+    display:none;
+}
+
 .usernameModal {
     position: fixed;
     padding:0;

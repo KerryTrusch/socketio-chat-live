@@ -88,4 +88,20 @@ io.on('connection', (socket) => {
     socket.on("get users", () => {
         socket.emit("users sent", users);
     })
+
+    socket.on("get servers", () => {
+        mongoose.connection.db.listCollections().toArray(function(err, names) {
+            if (err) {
+                console.log(err);
+            }
+            else {
+                let arr = [];
+                names.forEach(function(e,i,a) {
+                    arr.push(e.name);
+                });
+                console.log(arr);
+                io.emit("servers", arr);
+            }
+        });
+    })
 });
