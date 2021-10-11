@@ -23,10 +23,31 @@ $(function () {
     let input = document.getElementById('chatbar');
     let firstconnection = true;
     let color = "";
-    let numUsers;
+    let numUsers = 0;
     let imgsrc = "img/default.jpg";
-    let sliderVals = {1: [12, 3], 2: [16, 4], 3: [24, 5]};
+    let sliderVals = { 1: [12, 3], 2: [16, 4], 3: [24, 5] };
     let slider = document.getElementById('slider');
+    let room = "";
+    //First we built the servers list before showing the user the login screen and chat window
+    socket.emit("get servers");
+    socket.on("servers", (data) => {
+        if (!room) {
+            for (let i = 0; i < data.length; i++) {
+                if (data[i] != 'users' && data[i] != 'global_room') {
+                    this.$OuterDiv = $('<div></div>').addClass('server_list');
+                    this.$InnerDiv = $('<span></span>').html(data[i]);
+                    this.$OuterDiv.append(this.$InnerDiv);
+                    this.$OuterDiv.click(function () {
+                        document.getElementById("chat_content").style.display = 'initial';
+                        document.getElementById("server_browser").style.display = 'none';
+                        room = $(this).find("span").html();
+                        socket.emit("join room", room);
+                    })
+                    $('.server_menu_box').append(this.$OuterDiv);
+                }
+            }
+        }
+    });
 
     //Intercept default submit function for the input boxes on the chat window and username selection
     modalform.addEventListener('submit', function (e) {
@@ -35,7 +56,7 @@ $(function () {
             uname = modalinput.value;
             input.value = '';
             $('#modal').fadeOut("slow", function () { });
-            socket.emit("new user", { "id": socket.id, "uname": uname });
+            socket.emit("new user", { "id": socket.id, "uname": uname, "room": room });
         }
     });
 
@@ -43,12 +64,12 @@ $(function () {
         e.preventDefault();
         if (input.value) {
             messages = new message(input.value, uname);
-            socket.emit('getMessage', { "text": messages.body, "user": messages.username, "time": messages.time, "color": color, "imgsrc": imgsrc });
+            socket.emit('getMessage', { "text": messages.body, "user": messages.username, "time": messages.time, "color": color, "imgsrc": imgsrc, "room": room });
             input.value = '';
         }
     });
 
-    $("#fileupload").on('change', function() {
+    $("#fileupload").on('change', function () {
         let reader = new FileReader();
         reader.onload = function (e) {
             let thisImage = reader.result;
@@ -58,7 +79,7 @@ $(function () {
         reader.readAsDataURL(this.files[0]);
     });
 
-    $('#slider').change(function() {
+    $('#slider').change(function () {
         changeSize($(this).val());
     });
 
@@ -70,18 +91,19 @@ $(function () {
 
     socket.on("user joined", (data) => {
         addName(data["newName"], data["userId"]);
+        numUsers++;
+        addCurrUsers();
         scrollToBottom('userlist');
     });
 
     // Only retrieves divs on first connect
     socket.on("history", (data) => {
         if (firstconnection) {
-            socket.emit("get users");
-            socket.on("users sent", (users) => {
-                for (let key in users) {
-                    addName(users[key], key)
-                }
-            });
+            for (let i = 0; i < data["numUsers"]; i++) {
+                addName(data["users"][i].name, data["users"][i].id);
+            }
+            numUsers = data["numUsers"];
+            addCurrUsers();
             let length = data["messages"].length;
             for (let j = 0; j < length; j++) {
                 addMessage(data["messages"][j]);
@@ -91,30 +113,14 @@ $(function () {
         firstconnection = false;
     });
 
-    socket.on("num users up", (numUser) => {
-        numUsers = numUser;
-        addCurrUsers();
-    });
-
-    socket.on("num users down", (numUser) => {
-        numUsers = numUser;
-        addCurrUsers();
-    });
-
     socket.on("disconnected user", (hash) => {
         removeDivs(String(hash));
+        numUsers--;
+        addCurrUsers();
     });
 
-    function scrollToBottom(id) {
-        let div = document.querySelector("." + id);
-        $("#" + id).animate(
-            {
-                scrollTop: div.scrollHeight - div.clientHeight,
-            },
-            100
-        );
-    }
 
+    // Helper functions for adding divs to document
     function addName(username, userId) {
         let div = document.createElement('div');
         div.classList.add("userBox");
@@ -123,7 +129,7 @@ $(function () {
         b.classList.add("name");
         b.innerHTML = username;
         div.appendChild(b);
-        document.querySelector(".userlist").appendChild(div);
+        document.querySelector(".nameholder").appendChild(div);
     }
 
     function addMessage(data) {
@@ -163,26 +169,44 @@ $(function () {
             document.querySelector(".userlist").appendChild(p);
         }
     }
-    
+
+    function scrollToBottom(id) {
+        let div = document.querySelector("." + id);
+        $("#" + id).animate(
+            {
+                scrollTop: div.scrollHeight - div.clientHeight,
+            },
+            100
+        );
+    }
+
+
+    // Jquery for options modal
     $("#cog").click(function () {
-        $(".optionsModal").fadeIn("fast", () => {})
+        $(".optionsModal").fadeIn("fast", () => { })
     });
 
     $("#xbutton").click(function () {
-        $(".optionsModal").fadeOut("fast", () => {})
+        $(".optionsModal").fadeOut("fast", () => { })
     });
 
     $('body').click(function (event) {
         if (!event.target.closest('.optionsModal') && !event.target.closest('#cog')) {
-            $(".optionsModal").fadeOut("fast", () => {})
+            $(".optionsModal").fadeOut("fast", () => { })
         }
     });
 
     $("#filelabel").hover(
-        function() {
+        function () {
             $(".file-img-text").html("Change<br>Avatar");
-          }
+        }
     );
+
+    function changeSize(size) {
+        $('.message').css('font-size', sliderVals[size][0] + "px");
+        $('.text-pfp').css('height', sliderVals[size][1] + "rem");
+        $('.text-pfp').css('width', sliderVals[size][1] + "rem");
+    }
 
     // This removes the user on the left hand side by identifying their div using the unique socket.io id given to them 
     function removeDivs(idHash) {
@@ -195,10 +219,5 @@ $(function () {
         }
     }
 
-    function changeSize(size) {
-        $('.message').css('font-size', sliderVals[size][0] + "px");
-        $('.text-pfp').css('height', sliderVals[size][1] + "rem");
-        $('.text-pfp').css('width', sliderVals[size][1] + "rem");
-    }
 });
 

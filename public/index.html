@@ -16,13 +16,6 @@
         integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ=="
         crossorigin="anonymous"></script>
     <script>"https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"</script>
-    <script>
-        function show(shown, hidden) {
-            document.getElementById(shown).style.display = 'block';
-            document.getElementById(hidden).style.display = 'none';
-            return false;
-        }
-    </script>
 </head>
 
 <body>
@@ -67,9 +60,8 @@
         <div id="chatwindow" class="chatwindow">
             <div id="userlist" class="userlist">
                 <span><b>Users:</b></span>
-                <div id="numUsers">
-
-                </div>
+                <div id="nameholder" class="nameholder"></div>
+                <div id="numUsers"></div>
             </div>
             <div id="chatbox" class="chatbox"></div>
             <div id="inputbox" class="inputbox">
@@ -81,7 +73,6 @@
         </div>
         <script src="src/user.js"></script>
         <script src="src/message.js"></script>
-        <script src="src/browser.js"></script>
     </div>
 </body>
 

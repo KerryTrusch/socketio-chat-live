@@ -4,11 +4,6 @@ let socket = require("socket.io");
 let app = express();
 const mongoose = require('mongoose');
 let server = app.listen(port);
-let messages = [];
-let users = {};
-
-//Route to a particular room; this pulls from a mongoDB collection of those messages
-let room = "global_room";
 
 //Setting up mongoDB using mongoose
 const uri = process.env.MONGODB_URI || "mongodb+srv://dbAdmin:B2f9bxS%40t7%40i93j@cluster0.rcn3r.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
@@ -18,7 +13,7 @@ async function main() {
     await mongoose.connect(uri);
 }
 
-//Setting the schema for a message object
+//Setting the schema for a message and user object
 const messageSchema = new mongoose.Schema({
     text: String,
     user: String,
@@ -26,68 +21,73 @@ const messageSchema = new mongoose.Schema({
     color: String,
     imgsrc: String
 });
-const message = mongoose.model('Message', messageSchema, room);
 
-//Message prepopulation done async to prevent users that join quickly from not recieving data
-function updateMessageStorage() {
-    message.find({}).exec(function (err, models) {
-        if (err) {
-            console.log(err);
-        } else {
-            messages = [];
-            (async function () {
-                for await (let key of models) {
-                    messages.push(key);
-                }
-            })();
-        }
+const userSchema = new mongoose.Schema({
+    name: String,
+    id: String,
+    room: String
+});
+const users = mongoose.model('User', userSchema);
+users.deleteMany({}, function(err) {});
+
+let message;
+// Message query functions
+async function getAllMessagesFromRoom(room) {
+    message = mongoose.model('Message', messageSchema, room)
+    return message.find({}).exec();
+}
+
+function addMessageToRoom(data, room) {
+    message = mongoose.model('Message', messageSchema, room)
+    const newMessage = new message({
+        text: data["text"],
+        user: data["user"],
+        time: data["time"],
+        color: data["color"],
+        imgsrc: data["imgsrc"]
+    });
+    newMessage.save(function (err) {
+        if (err) console.log(err);
     });
 }
-updateMessageStorage();
+
+async function getUsersInRoom(rooms) {
+    return users.find({room: rooms}).exec();
+}
 //Routing app to files in the public folder
 app.use(express.static('public'));
 
-
-numUsers = 0;
 let io = socket(server);
 
 //Continually check for emits from the client
 io.on('connection', (socket) => {
-    numUsers++;
-    io.emit("num users up", numUsers);
 
-    io.emit("history", { "messages": messages, "users": users, "numUsers": numUsers });
+    socket.on("join room", (room) => {
+        socket.join(room);
+    });
 
-    socket.on("new user", (uname) => {
-        users[uname["id"]] = uname["uname"];
-        io.emit("user joined", { "newName": uname["uname"], "userId": uname["id"] });
+    socket.on("new user", async (uname) => {
+        const newUser = new users({
+            name: uname["uname"],
+            id: uname["id"],
+            room: uname["room"]
+        });
+        await newUser.save(function (err) {if (err) console.log(err)});
+        let messages = await getAllMessagesFromRoom(uname["room"]);
+        let numUsers = await getUsersInRoom(uname["room"]);
+        socket.emit("history", { "messages": messages, "users": numUsers, "numUsers": numUsers.length, "room":uname["room"] });
+        socket.broadcast.to(uname["room"]).emit("user joined", { "newName": uname["uname"], "userId": uname["id"], "room": uname["room"] });
     });
 
     socket.on("disconnect", () => {
-        numUsers--;
-        delete users[socket.id]
-        io.emit("num users down", numUsers);
+        users.deleteOne({id: socket.id}, function(err) {if (err) console.log(err)});
         io.emit("disconnected user", socket.id);
     });
 
     socket.on("getMessage", (data) => {
-        const newMessage = new message({
-            text: data["text"],
-            user: data["user"],
-            time: data["time"],
-            color: data["color"],
-            imgsrc: data["imgsrc"]
-        });
-        newMessage.save(function (err) {
-            if (err) console.log(err);
-        });
-        messages.push(newMessage);
-        io.emit("messageRecieved", data);
+        addMessageToRoom(data, data["room"]);
+        io.to(data["room"]).emit("messageRecieved", data);
     });
-
-    socket.on("get users", () => {
-        socket.emit("users sent", users);
-    })
 
     socket.on("get servers", () => {
         mongoose.connection.db.listCollections().toArray(function(err, names) {
@@ -99,8 +99,7 @@ io.on('connection', (socket) => {
                 names.forEach(function(e,i,a) {
                     arr.push(e.name);
                 });
-                console.log(arr);
-                io.emit("servers", arr);
+                socket.emit("servers", arr);
             }
         });
     })
