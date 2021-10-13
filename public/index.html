@@ -19,54 +19,69 @@
 </head>
 
 <body>
-    <div id="modal" class="usernameModal">
-        <div id="modalContent" class="usernameModal-inner">
-            <form id="modalform"><input type="text" id="userInput" class="userInput"></form>
-            <h1>What's your name?</h1>
+    <div id="server_browser">
+        <h1>Server Browser</h1>
+        <div class="server_menu_box">
+            <div class="server_holder"></div>
+            <div class="server_creator">
+                <h2>Create a server</h2>
+                <form id="serverform">
+                    <input type="text" id="server_input" class="server_input" placeholder="Enter a server name">
+                </form>
+                <button type="button" id="server_button">Start server</button>
+            </div>
         </div>
     </div>
-    <div id="cogModal" class="optionsModal">
-        <div class="wrapper">
-            <img src="img/redx.png" id="xbutton">
-            Options
+    <div id="chat_content">
+        <div id="modal" class="usernameModal">
+            <div id="modalContent" class="usernameModal-inner">
+                <form id="modalform"><input type="text" id="userInput" class="userInput"></form>
+                <h1>What's your name?</h1>
+            </div>
         </div>
-        <div class="optionChoices">
-            <div class="form-wrapper">
-                <label for="fileupload" id="filelabel" class="filelabel">
-                    <img src="img/default.jpg" id="pfppreview">
-                    <div class="file-img-text"></div>
-                </label>
-                <form id="imgform">
-                    <input type="file" id="fileupload" accept="image/png" />
+        <div id="cogModal" class="optionsModal">
+            <div class="wrapper">
+                <img src="img/redx.png" id="xbutton">
+                Options
+            </div>
+            <div class="optionChoices">
+                <div class="form-wrapper">
+                    <label for="fileupload" id="filelabel" class="filelabel">
+                        <img src="img/default.jpg" id="pfppreview">
+                        <div class="file-img-text"></div>
+                    </label>
+                    <form id="imgform">
+                        <input type="file" id="fileupload" accept="image/png" />
+                    </form>
+                </div>
+                <span id="change-text-size">Change text size</span>
+                <div class="slidecontainer">
+                    <input type="range" min="1" max="3" value="2" class="slider" id="slider">
+                </div>
+                <div class="text-sizes">
+                    <span id="px12">12 px</span>
+                    <span id="px16">16 px</span>
+                    <span id="px24">24 px</span>
+                </div>
+            </div>
+        </div>
+        <div id="chatwindow" class="chatwindow">
+            <div id="userlist" class="userlist">
+                <span><b>Users:</b></span>
+                <div id="nameholder" class="nameholder"></div>
+                <div id="numUsers"></div>
+            </div>
+            <div id="chatbox" class="chatbox"></div>
+            <div id="inputbox" class="inputbox">
+                <form id="chatform"><input type="text" id="chatbar" class="chatbar"
+                        placeholder="Click to begin typing" />
                 </form>
             </div>
-            <span id="change-text-size">Change text size</span>
-            <div class="slidecontainer">
-                <input type="range" min="1" max="3" value="2" class="slider" id="slider">
-            </div>
-            <div class="text-sizes">
-                <span id="px12">12 px</span>
-                <span id="px16">16 px</span>
-                <span id="px24">24 px</span>
-            </div>
+            <img src="img/cog.png" id="cog" />
         </div>
+        <script src="src/user.js"></script>
+        <script src="src/message.js"></script>
     </div>
-    <div id="chatwindow" class="chatwindow">
-        <div id="userlist" class="userlist">
-            <span><b>Users:</b></span>
-            <div id="numUsers">
-
-            </div>
-        </div>
-        <div id="chatbox" class="chatbox"></div>
-        <div id="inputbox" class="inputbox">
-            <form id="chatform"><input type="text" id="chatbar" class="chatbar" placeholder="Click to begin typing" />
-            </form>
-        </div>
-        <img src="img/cog.png" id="cog" />
-    </div>
-    <script src="src/user.js"></script>
-    <script src="src/message.js"></script>
 </body>
 
 </html>
