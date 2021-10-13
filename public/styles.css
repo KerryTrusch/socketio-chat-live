@@ -55,16 +55,25 @@ body, html {
 
 .server_menu_box {
     position: relative;
-    width: 60%;
+    display:flex;
+    width: 50%;
     height: 50%;
-    left: 22%;
+    left: 30%;
     top: 20%;
     background-color:white;
+}
+
+.server_holder {
+    display:flex;
+    flex-direction:column;
+    width:75%;
+    height: 100%;
     overflow-y: scroll;
 }
 
 .server_list {
-    width:70%;
+    text-align: center;
+    width:100%;
     height: 10%;
     background-color:lightgrey;
     font-size: 2rem;
@@ -77,7 +86,37 @@ body, html {
 .server_list:hover {opacity: 1;}
 
 .server_list span {
-    padding-left: 5%;
+    font-size: 3rem;
+}
+
+.server_creator{
+    text-align: center;
+    display:flex;
+    flex-direction: column;
+    width:25%;
+    height:100%;
+}
+
+#serverform {
+    position:relative;
+    top:5%;
+}
+
+#server_button {
+    position: relative;
+    top: 10%;
+    width: 62%;
+    left: 19%;
+    border-radius: 10%;
+}
+
+.server_creator h2 {
+    font-size: 2rem;
+}
+
+.server_label {
+    font-size: 1rem;
+    color:black;
 }
 #chat_content {
     display:none;

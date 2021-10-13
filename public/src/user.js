@@ -21,6 +21,8 @@ $(function () {
     let modalinput = document.getElementById('userInput');
     let form = document.getElementById('chatform');
     let input = document.getElementById('chatbar');
+    let serverform = document.getElementById('serverform');
+    let serverinput = document.getElementById('server_input');
     let firstconnection = true;
     let color = "";
     let numUsers = 0;
@@ -43,12 +45,31 @@ $(function () {
                         room = $(this).find("span").html();
                         socket.emit("join room", room);
                     })
-                    $('.server_menu_box').append(this.$OuterDiv);
+                    $('.server_holder').append(this.$OuterDiv);
                 }
             }
         }
     });
 
+    // Allow server creation if you hit enter on the input form or click the button
+    serverform.addEventListener('submit', function(e) {
+        e.preventDefault();
+        if (serverinput.value.length > 0 && serverinput.value.length <= 20) {
+            room = document.getElementById('server_input').value;
+            document.getElementById("chat_content").style.display = 'initial';
+            document.getElementById("server_browser").style.display = 'none';
+            socket.emit("join room", room);
+        }
+    });
+
+    $('#server_button').click(function() {
+        if (serverinput.value.length > 0 && serverinput.value.length <= 20) {
+            room = document.getElementById('server_input').value;
+            document.getElementById("chat_content").style.display = 'initial';
+            document.getElementById("server_browser").style.display = 'none';
+            socket.emit("join room", room);
+        }
+    });
     //Intercept default submit function for the input boxes on the chat window and username selection
     modalform.addEventListener('submit', function (e) {
         e.preventDefault();

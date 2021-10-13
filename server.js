@@ -13,7 +13,6 @@ async function main() {
     await mongoose.connect(uri);
 }
 
-//Setting the schema for a message and user object
 const messageSchema = new mongoose.Schema({
     text: String,
     user: String,
@@ -28,10 +27,10 @@ const userSchema = new mongoose.Schema({
     room: String
 });
 const users = mongoose.model('User', userSchema);
+// On server startup there should be no one connected, so we flush the collection
 users.deleteMany({}, function(err) {});
 
 let message;
-// Message query functions
 async function getAllMessagesFromRoom(room) {
     message = mongoose.model('Message', messageSchema, room)
     return message.find({}).exec();
