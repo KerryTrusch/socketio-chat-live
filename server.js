@@ -78,9 +78,13 @@ io.on('connection', (socket) => {
         socket.broadcast.to(uname["room"]).emit("user joined", { "newName": uname["uname"], "userId": uname["id"], "room": uname["room"] });
     });
 
-    socket.on("disconnect", () => {
+    // We use disconnecting instead of the disconnect function because disconnecting allows us to grab the users rooms
+    socket.on('disconnecting', () => {
         users.deleteOne({id: socket.id}, function(err) {if (err) console.log(err)});
-        io.emit("disconnected user", socket.id);
+        const rooms = Object.keys(socket.rooms);
+        for (let i = 0; i < rooms.length; i++) {
+            socket.broadcast.to(rooms[i]).emit("disconnected user", socket.id);
+        }
     });
 
     socket.on("getMessage", (data) => {
