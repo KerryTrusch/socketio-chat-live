@@ -21,7 +21,6 @@ $(function () {
     let modalinput = document.getElementById('userInput');
     let form = document.getElementById('chatform');
     let input = document.getElementById('chatbar');
-    let serverform = document.getElementById('serverform');
     let serverinput = document.getElementById('server_input');
     let firstconnection = true;
     let color = "";
@@ -52,7 +51,7 @@ $(function () {
     });
 
     // Allow server creation if you hit enter on the input form or click the button
-    serverform.addEventListener('submit', function(e) {
+    serverinput.addEventListener('submit', function(e) {
         e.preventDefault();
         if (serverinput.value.length > 0 && serverinput.value.length <= 20) {
             room = document.getElementById('server_input').value;
@@ -176,7 +175,7 @@ $(function () {
         body.classList.add('body');
         body.innerHTML = data["text"];
         messagebody.appendChild(body);
-        
+
         div.appendChild(messagebody);
         document.querySelector(".chatbox").appendChild(div);
     }
