@@ -27,7 +27,7 @@ $(function () {
     let color = "";
     let numUsers = 0;
     let imgsrc = "img/default.jpg";
-    let sliderVals = { 1: [12, 3], 2: [16, 4], 3: [24, 5] };
+    let sliderVals = { 1: 0.75, 2: 1, 3: 1.5 };
     let slider = document.getElementById('slider');
     let room = "";
     //First we built the servers list before showing the user the login screen and chat window
@@ -37,7 +37,7 @@ $(function () {
             for (let i = 0; i < data.length; i++) {
                 if (data[i] != 'users' && data[i] != 'global_room') {
                     this.$OuterDiv = $('<div></div>').addClass('server_list');
-                    this.$InnerDiv = $('<span></span>').html(data[i]);
+                    this.$InnerDiv = $('<span></span>').addClass('server_list_text').html(data[i]);
                     this.$OuterDiv.append(this.$InnerDiv);
                     this.$OuterDiv.click(function () {
                         document.getElementById("chat_content").style.display = 'initial';
@@ -156,20 +156,28 @@ $(function () {
     function addMessage(data) {
         let div = document.createElement('div');
         div.classList.add("message");
+
+        let imgdiv = document.createElement('div');
         let img = document.createElement('img');
         img.classList.add("text-pfp");
         img.src = data['imgsrc'];
-        div.appendChild(img);
+        imgdiv.appendChild(img);
+        div.appendChild(imgdiv);
+
+        let messagebody = document.createElement('div');
+        messagebody.classList.add("messagebody");
         let p = document.createElement('p');
         p.classList.add('user');
         p.style.color = data["color"];
         p.innerHTML = data["user"] + " ";
         p.innerHTML += `<span>${data["time"]}</span>`;
-        div.appendChild(p);
+        messagebody.appendChild(p);
         let body = document.createElement('p');
         body.classList.add('body');
         body.innerHTML = data["text"];
-        div.appendChild(body);
+        messagebody.appendChild(body);
+        
+        div.appendChild(messagebody);
         document.querySelector(".chatbox").appendChild(div);
     }
 
@@ -225,7 +233,6 @@ $(function () {
 
     function changeSize(size) {
         $('.message').css('font-size', sliderVals[size][0] + "px");
-        $('.text-pfp').css('height', sliderVals[size][1] + "rem");
         $('.text-pfp').css('width', sliderVals[size][1] + "rem");
     }
 

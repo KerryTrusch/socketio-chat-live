@@ -48,16 +48,16 @@ body, html {
 
 #server_browser h1 {
     position: absolute;
-    left: 40%;
-    font-size: 5rem;
+    left: 45%;
+    font-size: 5vh;
     color:white;
 }
 
 .server_menu_box {
     position: relative;
     display:flex;
-    width: 50%;
-    height: 50%;
+    width: 50vw;
+    height: 50vh;
     left: 30%;
     top: 20%;
     background-color:white;
@@ -76,17 +76,17 @@ body, html {
     width:100%;
     height: 10%;
     background-color:lightgrey;
-    font-size: 2rem;
     color:black;
     border-style: groove;
     border-bottom: hidden;
+    overflow-y: hidden;
     opacity: 0.7;
     transition: 0.2s;
 }
 .server_list:hover {opacity: 1;}
 
-.server_list span {
-    font-size: 3rem;
+.server_list .server_list_text {
+    font-size: 130%;
 }
 
 .server_creator{
@@ -97,21 +97,18 @@ body, html {
     height:100%;
 }
 
-#serverform {
-    position:relative;
-    top:5%;
-}
+#server_input {position:relative; left:20%; top:5%;width:7.5vw;}
 
 #server_button {
     position: relative;
     top: 10%;
-    width: 62%;
-    left: 19%;
+    width: 7.5vw;
+    left: 20%;
     border-radius: 10%;
 }
 
 .server_creator h2 {
-    font-size: 2rem;
+    font-size: 1.5vw;
 }
 
 .server_label {
@@ -350,7 +347,7 @@ body, html {
 
 /* Messages that appear in chatting area */
 .chatbox .message {
-    display: grid;
+    display: flex;
     padding:10px;
     overflow-wrap:break-word;
     max-width: 80%;
@@ -360,27 +357,40 @@ body, html {
 .chatbox .text-pfp {
     position: absolute;
     border-radius: 50%;
-    height: 4rem;
-    width:4rem;
+    width: 3vw;
     left: 2%;
 
     /* scales different resolution images to same size */
     object-fit: cover;
 }
 
+.chatbox .text-pfp:after {display:block;padding-bottom: 100%;}
+
+.chatbox .text-pfp img {
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.chatbox .message .messagebody {
+    max-width:80%;
+    display:flex;
+    flex-direction: column;
+    margin-left: 10%;
+}
+
 .chatbox .user {
-    position:relative;
-    left: 7%;
     font-weight: bold;
     opacity: 0.7;
-    margin-bottom: 0px;
     font-size:1.5em;
 }
 
 .chatbox .body {
-    display:inline;
-    position:relative;
-    left:7%;
     color:white;
     font-size:2em;
 }
