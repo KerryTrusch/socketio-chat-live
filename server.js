@@ -6,7 +6,7 @@ const mongoose = require('mongoose');
 let server = app.listen(port);
 
 //Setting up mongoDB using mongoose
-const uri = process.env.MONGODB_URI || "mongodb+srv://dbAdmin:B2f9bxS%40t7%40i93j@cluster0.rcn3r.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
+const uri = process.env.MONGODB_URI;
 main().catch(err => console.log(err));
 
 async function main() {
