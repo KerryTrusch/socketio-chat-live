@@ -58,6 +58,7 @@ $(function () {
             document.getElementById("chat_content").style.display = 'initial';
             document.getElementById("server_browser").style.display = 'none';
             socket.emit("join room", room);
+            defaultmessage();
         }
     });
 
@@ -66,9 +67,14 @@ $(function () {
             room = document.getElementById('server_input').value;
             document.getElementById("chat_content").style.display = 'initial';
             document.getElementById("server_browser").style.display = 'none';
-            socket.emit("join room", room);
+            defaultmessage();
         }
     });
+
+    function defaultmessage() {
+        messages = new message("Welcome to your new server! Hit the cog in the top right for additional options", "Server");
+        socket.emit('getMessage', { "text": messages.body, "user": messages.username, "time": messages.time, "color": "#FFFFFF", "imgsrc": imgsrc, "room": room });
+    }
     //Intercept default submit function for the input boxes on the chat window and username selection
     modalform.addEventListener('submit', function (e) {
         e.preventDefault();

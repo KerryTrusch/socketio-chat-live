@@ -6,7 +6,7 @@ const mongoose = require('mongoose');
 let server = app.listen(port);
 
 //Setting up mongoDB using mongoose
-const uri = process.env.MONGODB_URI;
+const uri = process.env.MONGODB_URI || "mongodb+srv://dbAdmin:B2f9bxS%40t7%40i93j@cluster0.rcn3r.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
 main().catch(err => console.log(err));
 
 async function main() {
@@ -28,7 +28,7 @@ const userSchema = new mongoose.Schema({
 });
 const users = mongoose.model('User', userSchema);
 // On server startup there should be no one connected, so we flush the collection
-users.deleteMany({}, function(err) {});
+users.deleteMany({}, function (err) { });
 
 let message;
 async function getAllMessagesFromRoom(room) {
@@ -51,7 +51,7 @@ function addMessageToRoom(data, room) {
 }
 
 async function getUsersInRoom(rooms) {
-    return users.find({room: rooms}).exec();
+    return users.find({ room: rooms }).exec();
 }
 //Routing app to files in the public folder
 app.use(express.static('public'));
@@ -71,16 +71,16 @@ io.on('connection', (socket) => {
             id: uname["id"],
             room: uname["room"]
         });
-        await newUser.save(function (err) {if (err) console.log(err)});
+        await newUser.save(function (err) { if (err) console.log(err) });
         let messages = await getAllMessagesFromRoom(uname["room"]);
         let numUsers = await getUsersInRoom(uname["room"]);
-        socket.emit("history", { "messages": messages, "users": numUsers, "numUsers": numUsers.length, "room":uname["room"] });
+        socket.emit("history", { "messages": messages, "users": numUsers, "numUsers": numUsers.length, "room": uname["room"] });
         socket.broadcast.to(uname["room"]).emit("user joined", { "newName": uname["uname"], "userId": uname["id"], "room": uname["room"] });
     });
 
     // We use disconnecting instead of the disconnect function because disconnecting allows us to grab the users rooms
     socket.on('disconnecting', () => {
-        users.deleteOne({id: socket.id}, function(err) {if (err) console.log(err)});
+        users.deleteOne({ id: socket.id }, function (err) { if (err) console.log("error removing user") });
         const rooms = Object.keys(socket.rooms);
         for (let i = 0; i < rooms.length; i++) {
             socket.broadcast.to(rooms[i]).emit("disconnected user", socket.id);
@@ -92,17 +92,28 @@ io.on('connection', (socket) => {
         io.to(data["room"]).emit("messageRecieved", data);
     });
 
-    socket.on("get servers", () => {
-        mongoose.connection.db.listCollections().toArray(function(err, names) {
+    socket.on("get servers", async () => {
+        let AllUsers = await users.find({}).exec();
+        let UsersInServerSet = new Set();
+        let servernames = [];
+        for (let i = 0; i < AllUsers.length; i++) {
+            if (!UsersInServerSet.has(AllUsers[i].room)) {
+                UsersInServerSet.add(AllUsers[i].room);
+            }
+        }
+        mongoose.connection.db.listCollections().toArray(function (err, names) {
             if (err) {
-                console.log(err);
+                console.log("error getting names");
             }
             else {
-                let arr = [];
-                names.forEach(function(e,i,a) {
-                    arr.push(e.name);
+                names.forEach(function (e) {
+                    if (!UsersInServerSet.has(e.name) && e.name != "users") {
+                        mongoose.connection.db.dropCollection(e.name, function (err, res) {});
+                    } else {
+                        servernames.push(e.name)
+                    }
                 });
-                socket.emit("servers", arr);
+                socket.emit("servers", servernames);
             }
         });
     })
